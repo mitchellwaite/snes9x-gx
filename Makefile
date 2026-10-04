@@ -1,10 +1,10 @@
 .PHONY = all wii gc wii-clean gc-clean wii-run gc-run
 
-all: wii gc
+all: xenon
 
 run: wii-run
 
-clean: wii-clean gc-clean
+clean: wii-clean gc-clean xenon-clean
 
 wii:
 	$(MAKE) -f Makefile.wii
@@ -23,3 +23,10 @@ gc-clean:
 
 gc-run: gc
 	$(MAKE) -f Makefile.gc run
+
+xenon:
+	$(MAKE) -f Makefile.xenon
+
+xenon-clean:
+	$(MAKE) -f Makefile.xenon clean
+
