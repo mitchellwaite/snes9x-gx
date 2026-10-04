@@ -249,7 +249,7 @@ void CreateAppPath(char * origpath) {
         int pos = 0;
 
         if (ChangeInterface(&path[pos], SILENT))
-                snprintf(appPath, MAXPATHLEN - 1, "%s", &path[pos]);
+                snprintf(appPath, PATH_MAX - 1, "%s", &path[pos]);
 
         free(path);
 }
@@ -273,8 +273,8 @@ bool GetFileSize(int i) {
                 return true;
 
         struct stat filestat;
-        char path[MAXPATHLEN + 1];
-        snprintf(path, MAXPATHLEN, "%s%s", browser.dir, browserList[i].filename);
+        char path[PATH_MAX + 1];
+        snprintf(path, PATH_MAX, "%s%s", browser.dir, browserList[i].filename);
 
         if (stat(path, &filestat) < 0)
                 return false;
@@ -317,9 +317,9 @@ static bool ParseDirEntries() {
                                 if (ext == NULL)
                                         continue;
 
-                                if (stricmp(ext, "smc") != 0 && stricmp(ext, "fig") != 0 &&
-                                        stricmp(ext, "sfc") != 0 && stricmp(ext, "swc") != 0 &&
-                                        stricmp(ext, "zip") != 0 && stricmp(ext, "7z") != 0)
+                                if (strcasecmp(ext, "smc") != 0 && strcasecmp(ext, "fig") != 0 &&
+                                        strcasecmp(ext, "sfc") != 0 && strcasecmp(ext, "swc") != 0 &&
+                                        strcasecmp(ext, "zip") != 0 && strcasecmp(ext, "7z") != 0)
                                         continue;
                         }
                 }
@@ -519,7 +519,7 @@ LoadSzFile(char * filepath, unsigned char * rbuffer) {
         HaltParseThread();
 
         file = fopen(filepath, "rb");
-        if (file > 0) {
+        if (file != NULL) {
                 size = SzExtractFile(browserList[browser.selIndex].filenum, rbuffer);
                 fclose(file);
         } else {

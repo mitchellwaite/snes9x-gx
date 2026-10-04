@@ -75,7 +75,7 @@ LoadSRAM (char * filepath, bool silent)
 bool
 LoadSRAMAuto (bool silent)
 {
-	char filepath[MAXPATHLEN];
+	char filepath[PATH_MAX];
 
 	// look for Auto save file
 	if(!MakeFilePath(filepath, FILE_SRAM, Memory.ROMFilename, 0))

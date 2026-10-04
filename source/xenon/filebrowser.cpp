@@ -42,7 +42,7 @@
 BROWSERINFO browser;
 BROWSERENTRY * browserList = NULL; // list of files/folders in browser
 
-static char szpath[MAXPATHLEN];
+static char szpath[PATH_MAX];
 static bool inSz = false;
 
 unsigned long SNESROMSize = 0;
@@ -142,7 +142,7 @@ static void CleanupPath(char * path)
 	
 	int pathlen = strlen(path);
 	int j = 0;
-	for(int i=0; i < pathlen && i < MAXPATHLEN; i++)
+	for(int i=0; i < pathlen && i < PATH_MAX; i++)
 	{
 		if(path[i] == '\\')
 			path[i] = '/';
@@ -221,7 +221,7 @@ int UpdateDirName()
 	else
 	{
 		/* test new directory namelength */
-		if ((strlen(browser.dir)+1+strlen(browserList[browser.selIndex].filename)) < MAXPATHLEN)
+		if ((strlen(browser.dir)+1+strlen(browserList[browser.selIndex].filename)) < PATH_MAX)
 		{
 			/* update current directory name */
 			sprintf(browser.dir, "%s%s/",browser.dir, browserList[browser.selIndex].filename);
@@ -240,12 +240,12 @@ bool MakeFilePath(char filepath[], int type, char * filename, int filenum)
 	char file[512];
 	char folder[1024];
 	char ext[4];
-	char temppath[MAXPATHLEN];
+	char temppath[PATH_MAX];
 
 	if(type == FILE_ROM)
 	{
 		// Check path length
-		if ((strlen(browser.dir)+1+strlen(browserList[browser.selIndex].filename)) >= MAXPATHLEN)
+		if ((strlen(browser.dir)+1+strlen(browserList[browser.selIndex].filename)) >= PATH_MAX)
 		{
 			ErrorPrompt("Maximum filepath length reached!");
 			filepath[0] = 0;
@@ -295,7 +295,7 @@ bool MakeFilePath(char filepath[], int type, char * filename, int filenum)
 		sprintf (temppath, "%s%s/%s", pathPrefix[GCSettings.SaveMethod], folder, file);
 	}
 	CleanupPath(temppath); // cleanup path
-	snprintf(filepath, MAXPATHLEN, "%s", temppath);
+	snprintf(filepath, PATH_MAX, "%s", temppath);
 	return true;
 }
 
@@ -323,7 +323,7 @@ int FileSortCallback(const void *f1, const void *f2)
 	if(((BROWSERENTRY *)f1)->isdir && !(((BROWSERENTRY *)f2)->isdir)) return -1;
 	if(!(((BROWSERENTRY *)f1)->isdir) && ((BROWSERENTRY *)f2)->isdir) return 1;
 
-	return stricmp(((BROWSERENTRY *)f1)->filename, ((BROWSERENTRY *)f2)->filename);
+	return strcasecmp(((BROWSERENTRY *)f1)->filename, ((BROWSERENTRY *)f2)->filename);
 }
 
 /****************************************************************************
@@ -352,7 +352,7 @@ static bool IsValidROM()
 		{
 			char * zippedFilename = NULL;
 			
-			if(stricmp(p, ".zip") == 0 && !inSz)
+			if(strcasecmp(p, ".zip") == 0 && !inSz)
 			{
 				// we need to check the file extension of the first file in the archive
 				zippedFilename = GetFirstZipFilename ();
@@ -365,10 +365,10 @@ static bool IsValidROM()
 
 			if(p != NULL)
 			{
-				if (stricmp(p, ".smc") == 0 ||
-					stricmp(p, ".fig") == 0 ||
-					stricmp(p, ".sfc") == 0 ||
-					stricmp(p, ".swc") == 0)
+				if (strcasecmp(p, ".smc") == 0 ||
+					strcasecmp(p, ".fig") == 0 ||
+					strcasecmp(p, ".sfc") == 0 ||
+					strcasecmp(p, ".swc") == 0)
 				{
 					if(zippedFilename) free(zippedFilename);
 					return true;
@@ -393,7 +393,7 @@ bool IsSz()
 		char * p = strrchr(browserList[browser.selIndex].filename, '.');
 
 		if (p != NULL)
-			if(stricmp(p, ".7z") == 0)
+			if(strcasecmp(p, ".7z") == 0)
 				return true;
 	}
 	return false;
@@ -425,8 +425,8 @@ void StripExt(char* returnstring, char * inputstring)
  ***************************************************************************/
 int BrowserLoadSz()
 {
-	char filepath[MAXPATHLEN];
-	memset(filepath, 0, MAXPATHLEN);
+	char filepath[PATH_MAX];
+	memset(filepath, 0, PATH_MAX);
 
 	// we'll store the 7z filepath for extraction later
 	if(!MakeFilePath(szpath, FILE_ROM))

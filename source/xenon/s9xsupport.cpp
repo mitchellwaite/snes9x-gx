@@ -238,9 +238,3 @@ int dup(int fildes)
 	ExitApp();
 	return 1;
 }
-
-int access(const char *pathname, int mode)
-{
-	ExitApp();
-	return 1;
-}

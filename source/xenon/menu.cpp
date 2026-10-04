@@ -3386,15 +3386,15 @@ static int MenuSettingsFile() {
 				break;
 
 			case 2:
-				OnScreenKeyboard(GCSettings.LoadFolder, MAXPATHLEN);
+				OnScreenKeyboard(GCSettings.LoadFolder, PATH_MAX);
 				break;
 
 			case 3:
-				OnScreenKeyboard(GCSettings.SaveFolder, MAXPATHLEN);
+				OnScreenKeyboard(GCSettings.SaveFolder, PATH_MAX);
 				break;
 
 			case 4:
-				OnScreenKeyboard(GCSettings.CheatFolder, MAXPATHLEN);
+				OnScreenKeyboard(GCSettings.CheatFolder, PATH_MAX);
 				break;
 
 			case 5:

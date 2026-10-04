@@ -83,9 +83,9 @@ struct SGCSettings{
     int		AutoSave;
     int		LoadMethod; // For ROMS: Auto, SD, DVD, USB, Network (SMB)
 	int		SaveMethod; // For SRAM, Freeze, Prefs: Auto, SD, USB, SMB
-	char	LoadFolder[MAXPATHLEN]; // Path to game files
-	char	SaveFolder[MAXPATHLEN]; // Path to save files
-	char	CheatFolder[MAXPATHLEN]; // Path to cheat files
+	char	LoadFolder[PATH_MAX]; // Path to game files
+	char	SaveFolder[PATH_MAX]; // Path to save files
+	char	CheatFolder[PATH_MAX]; // Path to cheat files
 
 	char	smbip[80];
 	char	smbuser[20];

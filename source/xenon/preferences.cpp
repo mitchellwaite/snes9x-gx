@@ -473,12 +473,12 @@ DefaultSettings ()
 /****************************************************************************
  * Save Preferences
  ***************************************************************************/
-static char prefpath[MAXPATHLEN] = { 0 };
+static char prefpath[PATH_MAX] = { 0 };
 
 bool
 SavePrefs (bool silent)
 {
-	char filepath[MAXPATHLEN];
+	char filepath[PATH_MAX];
 	int datasize;
 	int offset = 0;
 	int device = 0;
@@ -558,7 +558,7 @@ LoadPrefsFromMethod (char * path)
 {
 	bool retval = false;
 	int offset = 0;
-	char filepath[MAXPATHLEN];
+	char filepath[PATH_MAX];
 	sprintf(filepath, "%s/%s", path, PREF_FILE_NAME);
 
 	AllocSaveBuffer ();
@@ -593,7 +593,7 @@ bool LoadPrefs()
 		return true;
 
 	bool prefFound = false;
-	char filepath[5][MAXPATHLEN];
+	char filepath[5][PATH_MAX];
 	int numDevices;
 	
 	numDevices = 4;
